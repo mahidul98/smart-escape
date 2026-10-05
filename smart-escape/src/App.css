@@ -1,324 +1,936 @@
+/* =========================================================
+   SMART ESCAPE — MODERN EMERGENCY DASHBOARD
+   ========================================================= */
+
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
-  color: #1f2937;
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background: #f4f7fb;
+  color: #172033;
 }
+
+
+/* =========================================================
+   APP
+   ========================================================= */
 
 .app {
   min-height: 100vh;
 }
 
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
 .header {
-  height: 80px;
-  padding: 15px 25px;
-  background: #111827;
-  color: white;
+  min-height: 76px;
 
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+
+  padding: 16px 32px;
+
+  background: #0f172a;
+  color: white;
+
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.15);
 }
 
 .header h1 {
   margin: 0;
-  font-size: 25px;
+
+  font-size: 26px;
+  font-weight: 750;
+
+  letter-spacing: -0.5px;
 }
 
 .header p {
   margin: 4px 0 0;
-  color: #9ca3af;
+
+  color: #94a3b8;
+  font-size: 13px;
 }
 
+.header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.language-button,
 .import-button,
 .big-import-button {
-  background: #2563eb;
-  color: white;
-  padding: 12px 18px;
-  border-radius: 8px;
   cursor: pointer;
-  font-weight: bold;
+
+  border-radius: 8px;
+
+  font-weight: 650;
+
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
-.import-button:hover,
-.big-import-button:hover {
-  background: #1d4ed8;
+.language-button {
+  padding: 9px 14px;
+
+  border: 1px solid #475569;
+
+  background: #1e293b;
+  color: white;
 }
 
-.main {
-  padding: 25px;
+.language-button:hover {
+  background: #334155;
+  transform: translateY(-1px);
 }
 
-.welcome {
-  max-width: 600px;
-  margin: 100px auto;
-  padding: 45px;
-  text-align: center;
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-}
-
-.welcome h2 {
-  font-size: 32px;
-  margin-bottom: 10px;
-}
-
-.welcome p {
-  color: #6b7280;
-  line-height: 1.6;
-  margin-bottom: 30px;
-}
-
-.error-box {
-  max-width: 600px;
-  margin: 80px auto;
-  padding: 25px;
-  background: #fee2e2;
-  border: 1px solid #ef4444;
-  border-radius: 10px;
-  color: #991b1b;
-}
-
-.building-info {
-  background: white;
-  padding: 18px 22px;
-  border-radius: 10px;
-  margin-bottom: 20px;
-}
-
-.building-info h2 {
-  margin: 0 0 5px;
-}
-
-.building-info p {
-  margin: 0;
-  color: #6b7280;
-}
-
-.map {
-  position: relative;
-  width: 100%;
-  min-height: 600px;
-  background: white;
-  border-radius: 12px;
-  overflow: auto;
-  border: 1px solid #d1d5db;
-}
-
-/* Corridors */
-
-.edge {
-  position: absolute;
-  height: 4px;
-  background: #9ca3af;
-  transform-origin: left center;
-  z-index: 1;
-}
-
-.edge span {
-  position: absolute;
-  left: 50%;
-  top: -22px;
-  transform: translateX(-50%);
-  background: white;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: bold;
-  color: #374151;
-}
-
-/* Nodes */
-
-.node {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  z-index: 2;
-  text-align: center;
-}
-
-.node-circle {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-
-  display: flex;
+.import-button {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
 
-  color: white;
-  font-weight: bold;
-  border: 3px solid white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
+  padding: 10px 16px;
 
-.node-label {
-  margin-top: 5px;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-/* Room */
-
-.node.room .node-circle {
   background: #2563eb;
+  color: white;
+
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
 }
 
-/* Junction */
-
-.node.junction .node-circle {
-  background: #f59e0b;
+.import-button:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
 }
 
-/* Exit */
 
-.node.exit .node-circle {
-  background: #16a34a;
-  border-radius: 8px;
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+.main {
+  width: min(1200px, calc(100% - 32px));
+
+  margin: 0 auto;
+
+  padding: 32px 0 60px;
 }
-.controls {
+
+
+/* =========================================================
+   WELCOME SCREEN
+   ========================================================= */
+
+.welcome {
+  max-width: 700px;
+
+  margin: 90px auto;
+
+  padding: 50px 40px;
+
+  text-align: center;
+
   background: white;
-  padding: 18px 22px;
-  border-radius: 10px;
-  margin-bottom: 15px;
 
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+
+  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
+}
+
+.welcome h2 {
+  margin: 0 0 12px;
+
+  font-size: 34px;
+  letter-spacing: -1px;
+}
+
+.welcome p {
+  max-width: 520px;
+
+  margin: 0 auto 28px;
+
+  line-height: 1.7;
+
+  color: #64748b;
+}
+
+.big-import-button {
+  display: inline-flex;
+
+  padding: 13px 22px;
+
+  background: #2563eb;
+  color: white;
+
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.2);
+}
+
+.big-import-button:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.error-box {
+  max-width: 650px;
+
+  margin: 80px auto;
+
+  padding: 24px;
+
+  background: #fff7f7;
+
+  border: 1px solid #fecaca;
+  border-left: 5px solid #dc2626;
+
+  border-radius: 12px;
+}
+
+.error-box h2 {
+  margin-top: 0;
+
+  color: #b91c1c;
+}
+
+.error-box p {
+  color: #7f1d1d;
+}
+
+
+/* =========================================================
+   BUILDING INFO
+   ========================================================= */
+
+.building-section {
   display: flex;
-  align-items: center;
-  gap: 15px;
+  flex-direction: column;
+
+  gap: 18px;
 }
 
-.controls label {
-  font-weight: bold;
+.building-info {
+  padding: 22px 24px;
+
+  background: white;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.05);
 }
 
-.controls select {
-  padding: 9px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 7px;
+.building-info h2 {
+  margin: 0;
+
+  font-size: 24px;
+}
+
+.building-info p {
+  margin: 6px 0 0;
+
+  color: #64748b;
   font-size: 14px;
 }
 
-.route-status {
+
+/* =========================================================
+   START LOCATION
+   ========================================================= */
+
+.controls {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+
+  padding: 20px 24px;
+
   background: white;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.05);
+}
+
+.controls label {
+  font-size: 14px;
+  font-weight: 700;
+
+  color: #334155;
+}
+
+.controls select {
+  width: 100%;
+
+  padding: 12px 14px;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+
+  background: white;
+  color: #172033;
+
+  font-size: 14px;
+
+  outline: none;
+
+  cursor: pointer;
+}
+
+.controls select:focus {
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+
+/* =========================================================
+   EMERGENCY CONTROLS
+   ========================================================= */
+
+.hazard-controls {
+  padding: 22px 24px;
+
+  background: white;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.05);
+}
+
+.hazard-controls h3 {
+  margin: 0 0 20px;
+
+  font-size: 18px;
+
+  color: #b91c1c;
+}
+
+.hazard-controls h4 {
+  margin: 18px 0 9px;
+
+  font-size: 13px;
+
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  color: #64748b;
+}
+
+.hazard-list {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-bottom: 12px;
+}
+
+.hazard-list button {
+  padding: 8px 12px;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+
+  background: #f8fafc;
+  color: #334155;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    border 0.15s ease,
+    transform 0.15s ease;
+}
+
+.hazard-list button:hover {
+  background: #eff6ff;
+
+  border-color: #93c5fd;
+
+  transform: translateY(-1px);
+}
+
+.hazard-list .hazard-active {
+  background: #dc2626;
+  border-color: #dc2626;
+
+  color: white;
+
+  box-shadow: 0 3px 8px rgba(220, 38, 38, 0.2);
+}
+
+
+/* =========================================================
+   RESET BUTTON
+   ========================================================= */
+
+.reset-button {
+  margin-top: 12px;
+
+  padding: 10px 16px;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+
+  background: #f8fafc;
+  color: #334155;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.15s ease;
+}
+
+.reset-button:hover {
+  background: #e2e8f0;
+}
+
+
+/* =========================================================
+   ROUTE STATUS
+   ========================================================= */
+
+.route-status {
   padding: 18px 22px;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  border-left: 5px solid #2563eb;
+
+  border-radius: 12px;
+
+  border: 1px solid;
 }
 
 .route-status p {
   margin: 8px 0 0;
 }
 
+.route-status.success {
+  background: #f0fdf4;
+
+  border-color: #86efac;
+
+  color: #166534;
+}
+
 .route-status.no-route {
-  border-left-color: #dc2626;
+  background: #fff7ed;
+
+  border-color: #fdba74;
+
+  color: #9a3412;
 }
 
 .route-status.blocked {
-  border-left-color: #f59e0b;
-}
-.route-edge {
-  height: 5px;
-  background: #00c853;
-  box-shadow: 0 0 8px #00c853;
-  z-index: 2;
+  background: #fef2f2;
+
+  border-color: #fca5a5;
+
+  color: #991b1b;
 }
 
-.hazard-active {
-  background: #d32f2f;
-  color: white;
+
+/* =========================================================
+   MAP
+   ========================================================= */
+
+.map {
+  position: relative;
+
+  width: 100%;
+  min-height: 500px;
+
+  overflow: auto;
+
+  background:
+    linear-gradient(
+      rgba(148, 163, 184, 0.08) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(148, 163, 184, 0.08) 1px,
+      transparent 1px
+    ),
+    #f8fafc;
+
+  background-size: 25px 25px;
+
+  border: 1px solid #dbe3ee;
+  border-radius: 16px;
+
+  box-shadow:
+    inset 0 0 30px rgba(15, 23, 42, 0.03),
+    0 8px 25px rgba(15, 23, 42, 0.06);
 }
 
-.reset-button {
-  margin-top: 15px;
-  padding: 10px 16px;
-  cursor: pointer;
+
+/* =========================================================
+   MAP EDGES
+   ========================================================= */
+
+.edge {
+  position: absolute;
+
+  height: 3px;
+
+  transform-origin: left center;
+
+  background: #94a3b8;
+
+  z-index: 1;
 }
 
-.hazard-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 15px;
-}
+.edge span {
+  position: absolute;
 
-.hazard-list button {
-  padding: 8px 12px;
-  cursor: pointer;
-}
-/* Emergency controls */
-.hazard-controls {
-  margin: 20px 0;
-  padding: 18px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-}
+  left: 50%;
+  top: -18px;
 
-.hazard-controls h3 {
-  margin-top: 0;
-}
+  transform: translateX(-50%);
 
-.hazard-controls h4 {
-  margin-bottom: 8px;
-}
+  padding: 2px 5px;
 
-.hazard-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 16px;
-}
+  border-radius: 4px;
 
-.hazard-list button {
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
   background: white;
-  cursor: pointer;
+
+  color: #64748b;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
 }
 
-.hazard-list button:hover {
-  background: #f0f0f0;
-}
 
-.hazard-list .hazard-active {
-  background: #d32f2f;
-  color: white;
-  border-color: #d32f2f;
-}
+/* =========================================================
+   ROUTE HIGHLIGHT
+   ========================================================= */
 
-.reset-button {
-  padding: 10px 16px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-/* Calculated evacuation route */
 .route-edge {
-  height: 5px;
+  height: 6px;
+
+  background: #16a34a;
+
   z-index: 5;
-  box-shadow: 0 0 8px rgba(0, 200, 83, 0.8);
+
+  box-shadow:
+    0 0 6px rgba(22, 163, 74, 0.65),
+    0 0 14px rgba(22, 163, 74, 0.25);
 }
 
-/* Blocked corridor on map */
+.route-edge span {
+  color: #166534;
+}
+
+
+/* =========================================================
+   BLOCKED EDGE
+   ========================================================= */
+
 .blocked-edge {
-  opacity: 0.35;
-  border-style: dashed;
+  background: #dc2626;
+
+  opacity: 0.45;
+
+  border-top: 2px dashed #991b1b;
 }
 
-/* Blocked room / junction */
+
+/* =========================================================
+   MAP NODES
+   ========================================================= */
+
+.node {
+  position: absolute;
+
+  transform: translate(-50%, -50%);
+
+  z-index: 10;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+}
+
+.node-circle {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 3px solid white;
+
+  border-radius: 50%;
+
+  background: #2563eb;
+  color: white;
+
+  font-size: 12px;
+  font-weight: 800;
+
+  box-shadow:
+    0 3px 8px rgba(15, 23, 42, 0.2);
+}
+
+.node-label {
+  margin-top: 5px;
+
+  padding: 3px 7px;
+
+  border-radius: 5px;
+
+  background: rgba(255, 255, 255, 0.92);
+
+  color: #334155;
+
+  font-size: 11px;
+  font-weight: 650;
+
+  white-space: nowrap;
+
+  box-shadow:
+    0 1px 4px rgba(15, 23, 42, 0.1);
+}
+
+
+/* =========================================================
+   ROOM
+   ========================================================= */
+
+.node.room .node-circle {
+  background: #2563eb;
+}
+
+
+/* =========================================================
+   JUNCTION
+   ========================================================= */
+
+.node.junction .node-circle {
+  background: #7c3aed;
+}
+
+
+/* =========================================================
+   EXIT
+   ========================================================= */
+
+.node.exit .node-circle {
+  background: #16a34a;
+
+  width: 46px;
+  height: 46px;
+
+  border-color: #bbf7d0;
+}
+
+.node.exit .node-label {
+  color: #166534;
+}
+
+
+/* =========================================================
+   BLOCKED NODE
+   ========================================================= */
+
 .blocked-node .node-circle {
-  opacity: 0.45;
+  background: #dc2626;
+
+  opacity: 1;
+
+  border-color: #fecaca;
+
+  box-shadow:
+    0 0 0 4px rgba(220, 38, 38, 0.15),
+    0 3px 8px rgba(220, 38, 38, 0.25);
 }
 
-/* Closed exit */
+
+/* =========================================================
+   CLOSED EXIT
+   ========================================================= */
+
 .closed-exit .node-circle {
-  opacity: 0.45;
+  background: #64748b;
+
+  border-color: #cbd5e1;
+
+  opacity: 0.8;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  .header {
+    padding: 14px 18px;
+
+    align-items: flex-start;
+
+    gap: 15px;
+  }
+
+  .header h1 {
+    font-size: 21px;
+  }
+
+  .header p {
+    font-size: 11px;
+  }
+
+  .header-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .language-button,
+  .import-button {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+
+  .main {
+    width: min(100% - 20px, 1200px);
+
+    padding-top: 20px;
+  }
+
+  .welcome {
+    margin: 50px auto;
+
+    padding: 35px 22px;
+  }
+
+  .welcome h2 {
+    font-size: 28px;
+  }
+
+  .map {
+    min-height: 450px;
+  }
+}
+/* =========================================================
+   ANIMATED EVACUATION PATH
+   ========================================================= */
+
+.route-edge {
+  height: 7px;
+
+  background: #16a34a;
+
+  background-image: repeating-linear-gradient(
+    90deg,
+    #16a34a 0px,
+    #16a34a 14px,
+    #bbf7d0 14px,
+    #bbf7d0 24px
+  );
+
+  background-size: 48px 100%;
+
+  animation: routeFlow 0.8s linear infinite;
+
+  border-radius: 10px;
+
+  z-index: 6;
+
+  box-shadow:
+    0 0 7px rgba(22, 163, 74, 0.8),
+    0 0 16px rgba(22, 163, 74, 0.35);
+}
+
+@keyframes routeFlow {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 48px 0;
+  }
+}
+
+
+/* =========================================================
+   STARTING LOCATION — STRONG PULSE
+   ========================================================= */
+
+.start-node .node-circle {
+  position: relative;
+
+  background: #2563eb;
+
+  box-shadow:
+    0 0 0 4px rgba(37, 99, 235, 0.25),
+    0 0 0 8px rgba(37, 99, 235, 0.12),
+    0 4px 10px rgba(37, 99, 235, 0.35);
+}
+
+.start-node .node-circle::before {
+  content: "";
+
+  position: absolute;
+
+  inset: -9px;
+
+  border: 3px solid #2563eb;
+
+  border-radius: 50%;
+
+  animation: startPulse 1.5s ease-out infinite;
+}
+
+@keyframes startPulse {
+  0% {
+    transform: scale(0.65);
+    opacity: 0.9;
+  }
+
+  70% {
+    transform: scale(1.25);
+    opacity: 0.2;
+  }
+
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+
+/* =========================================================
+   EXIT — VERY VISIBLE DESTINATION PULSE
+   ========================================================= */
+
+.route-exit {
+  z-index: 20;
+}
+
+.route-exit .node-circle {
+  position: relative;
+
+  width: 52px;
+  height: 52px;
+
+  background: #16a34a;
+
+  border: 4px solid #dcfce7;
+
+  box-shadow:
+    0 0 0 5px rgba(22, 163, 74, 0.25),
+    0 0 0 10px rgba(22, 163, 74, 0.10),
+    0 5px 14px rgba(22, 163, 74, 0.35);
+
+  animation: exitGlow 1.4s ease-in-out infinite;
+}
+
+.route-exit .node-circle::before,
+.route-exit .node-circle::after {
+  content: "";
+
+  position: absolute;
+
+  inset: -10px;
+
+  border: 3px solid #22c55e;
+
+  border-radius: 50%;
+
+  animation: exitPulse 1.8s ease-out infinite;
+}
+
+.route-exit .node-circle::after {
+  animation-delay: 0.9s;
+}
+
+.route-exit .node-label {
+  padding: 5px 9px;
+
+  background: #166534;
+
+  color: white;
+
+  font-size: 12px;
+  font-weight: 800;
+
+  box-shadow:
+    0 3px 10px rgba(22, 101, 52, 0.25);
+}
+
+@keyframes exitPulse {
+  0% {
+    transform: scale(0.65);
+    opacity: 0.8;
+  }
+
+  70% {
+    transform: scale(1.35);
+    opacity: 0.15;
+  }
+
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes exitGlow {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+
+/* =========================================================
+   KEEP BLOCKED NODES ABOVE EVERYTHING
+   ========================================================= */
+
+.blocked-node {
+  z-index: 25;
+}
+
+.blocked-node .node-circle {
+  animation: none;
 }

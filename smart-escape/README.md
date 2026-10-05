@@ -1,16 +1,25 @@
-# React + Vite
+# Smart Escape
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Smart Escape is an interactive evacuation route simulator that calculates the lowest-cost evacuation route inside a building and dynamically reroutes when emergency conditions change.
 
-Currently, two official plugins are available:
+## Identity
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Full Name: YOUR FULL NAME
+- Registration Number: YOUR REGISTRATION NUMBER
 
-## React Compiler
+## Live Website
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+YOUR LIVE WEBSITE LINK
 
-## Expanding the ESLint configuration
+## GitHub Repository
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+YOUR GITHUB REPOSITORY LINK
+
+## How to Run
+
+1. Clone the repository.
+2. Open the project folder.
+3. Install dependencies:
+
+```bash
+npm install

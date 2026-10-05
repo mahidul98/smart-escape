@@ -4,9 +4,10 @@ import { findShortestRoute } from "./utils/dijkstra";
 
 function App() {
   const [building, setBuilding] = useState(null);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(false);
   const [startNode, setStartNode] = useState("");
   const [route, setRoute] = useState(null);
+  const [language, setLanguage] = useState("en");
 
   const [currentState, setCurrentState] = useState({
     blocked_nodes: [],
@@ -14,7 +15,60 @@ function App() {
     closed_exits: [],
   });
 
-  // Import building.json
+  const text = {
+    en: {
+      title: "Smart Escape",
+      subtitle: "Interactive Evacuation Route Simulator",
+      import: "Import Building",
+      choose: "Choose building.json",
+      welcome:
+        "Import a building.json file to visualize the building and calculate evacuation routes.",
+      starting: "Starting Location",
+      select: "Select starting location",
+      emergency: "Emergency Controls",
+      corridors: "Blocked Corridors",
+      exits: "Closed Exits",
+      locations: "Blocked Locations",
+      reset: "Reset Emergency State",
+      routeFound: "Route found",
+      exit: "Exit",
+      cost: "Cost",
+      noRoute: "No route available",
+      blocked: "Starting location blocked",
+      importError: "Import Error",
+      invalidFile: "Invalid building.json file",
+      nodes: "nodes",
+      corridorCount: "corridors",
+    },
+
+    bn: {
+      title: "স্মার্ট এসকেপ",
+      subtitle: "ইন্টার‍্যাক্টিভ ইভাকুয়েশন রুট সিমুলেটর",
+      import: "বিল্ডিং ইমপোর্ট করুন",
+      choose: "building.json নির্বাচন করুন",
+      welcome:
+        "বিল্ডিং দেখতে এবং নিরাপদ বের হওয়ার পথ নির্ধারণ করতে building.json ফাইল ইমপোর্ট করুন।",
+      starting: "শুরুর স্থান",
+      select: "শুরুর স্থান নির্বাচন করুন",
+      emergency: "জরুরি নিয়ন্ত্রণ",
+      corridors: "বন্ধ করিডোর",
+      exits: "বন্ধ এক্সিট",
+      locations: "বন্ধ স্থান",
+      reset: "জরুরি অবস্থা রিসেট করুন",
+      routeFound: "রুট পাওয়া গেছে",
+      exit: "এক্সিট",
+      cost: "খরচ",
+      noRoute: "কোনো রুট পাওয়া যায়নি",
+      blocked: "শুরুর স্থানটি বন্ধ",
+      importError: "ইমপোর্টে সমস্যা",
+      invalidFile: "ভুল building.json ফাইল",
+      nodes: "নোড",
+      corridorCount: "করিডোর",
+    },
+  };
+
+  const t = text[language];
+
   function handleFileImport(event) {
     const file = event.target.files[0];
 
@@ -37,7 +91,7 @@ function App() {
         setBuilding(data);
         setStartNode("");
         setRoute(null);
-        setError("");
+        setError(false);
 
         setCurrentState({
           blocked_nodes: data.initial_state?.blocked_nodes || [],
@@ -47,14 +101,13 @@ function App() {
       } catch (err) {
         setBuilding(null);
         setRoute(null);
-        setError("Invalid building.json file");
+        setError(true);
       }
     };
 
     reader.readAsText(file);
   }
 
-  // Calculate route
   function calculateRoute(start, state) {
     if (!building || !start) {
       setRoute(null);
@@ -71,15 +124,14 @@ function App() {
     setRoute(result);
   }
 
-  // Starting location changed
   function handleStartChange(event) {
     const selectedStart = event.target.value;
 
     setStartNode(selectedStart);
+
     calculateRoute(selectedStart, currentState);
   }
 
-  // Change emergency state and immediately recalculate
   function updateState(newState) {
     setCurrentState(newState);
 
@@ -88,67 +140,54 @@ function App() {
     }
   }
 
-  // Toggle blocked corridor
   function toggleEdge(edgeId) {
-    const isBlocked =
-      currentState.blocked_edges.includes(edgeId);
+    const isBlocked = currentState.blocked_edges.includes(edgeId);
 
     const newState = {
       ...currentState,
+
       blocked_edges: isBlocked
         ? currentState.blocked_edges.filter(
             (id) => id !== edgeId
           )
-        : [
-            ...currentState.blocked_edges,
-            edgeId,
-          ],
+        : [...currentState.blocked_edges, edgeId],
     };
 
     updateState(newState);
   }
 
-  // Toggle closed exit
   function toggleExit(exitId) {
-    const isClosed =
-      currentState.closed_exits.includes(exitId);
+    const isClosed = currentState.closed_exits.includes(exitId);
 
     const newState = {
       ...currentState,
+
       closed_exits: isClosed
         ? currentState.closed_exits.filter(
             (id) => id !== exitId
           )
-        : [
-            ...currentState.closed_exits,
-            exitId,
-          ],
+        : [...currentState.closed_exits, exitId],
     };
 
     updateState(newState);
   }
 
-  // Toggle blocked room/junction
   function toggleNode(nodeId) {
-    const isBlocked =
-      currentState.blocked_nodes.includes(nodeId);
+    const isBlocked = currentState.blocked_nodes.includes(nodeId);
 
     const newState = {
       ...currentState,
+
       blocked_nodes: isBlocked
         ? currentState.blocked_nodes.filter(
             (id) => id !== nodeId
           )
-        : [
-            ...currentState.blocked_nodes,
-            nodeId,
-          ],
+        : [...currentState.blocked_nodes, nodeId],
     };
 
     updateState(newState);
   }
 
-  // Reset emergency state
   function resetEmergencyState() {
     const resetState = {
       blocked_nodes: [],
@@ -165,7 +204,6 @@ function App() {
     }
   }
 
-  // Check whether a corridor belongs to the calculated route
   function isRouteEdge(edge) {
     if (!route || route.status !== "success") {
       return false;
@@ -192,39 +230,55 @@ function App() {
 
   return (
     <div className="app">
+
       {/* HEADER */}
       <header className="header">
+
         <div>
-          <h1>Smart Escape</h1>
-          <p>Interactive Evacuation Route Simulator</p>
+          <h1>{t.title}</h1>
+          <p>{t.subtitle}</p>
         </div>
 
-        <label className="import-button">
-          Import Building
+        <div className="header-buttons">
 
-          <input
-            type="file"
-            accept=".json,application/json"
-            onChange={handleFileImport}
-            hidden
-          />
-        </label>
+          <button
+            className="language-button"
+            onClick={() =>
+              setLanguage(language === "en" ? "bn" : "en")
+            }
+          >
+            {language === "en" ? "বাংলা" : "English"}
+          </button>
+
+          <label className="import-button">
+            {t.import}
+
+            <input
+              type="file"
+              accept=".json,application/json"
+              onChange={handleFileImport}
+              hidden
+            />
+          </label>
+
+        </div>
+
       </header>
 
+
+      {/* MAIN */}
       <main className="main">
 
         {/* WELCOME */}
         {!building && !error && (
           <section className="welcome">
-            <h2>Smart Escape</h2>
 
-            <p>
-              Import a building.json file to visualize the
-              building and calculate evacuation routes.
-            </p>
+            <h2>{t.title}</h2>
+
+            <p>{t.welcome}</p>
 
             <label className="big-import-button">
-              Choose building.json
+              {t.choose}
 
               <input
                 type="file"
@@ -233,16 +287,22 @@ function App() {
                 hidden
               />
             </label>
+
           </section>
         )}
+
 
         {/* ERROR */}
         {error && (
           <section className="error-box">
-            <h2>Import Error</h2>
-            <p>{error}</p>
+
+            <h2>{t.importError}</h2>
+
+            <p>{t.invalidFile}</p>
+
           </section>
         )}
+
 
         {/* BUILDING */}
         {building && (
@@ -250,18 +310,22 @@ function App() {
 
             {/* BUILDING INFO */}
             <div className="building-info">
+
               <h2>{building.building}</h2>
 
               <p>
-                {building.nodes.length} nodes ·{" "}
-                {building.edges.length} corridors
+                {building.nodes.length} {t.nodes} ·{" "}
+                {building.edges.length} {t.corridorCount}
               </p>
+
             </div>
+
 
             {/* START LOCATION */}
             <div className="controls">
+
               <label htmlFor="start">
-                Starting Location
+                {t.starting}
               </label>
 
               <select
@@ -269,8 +333,9 @@ function App() {
                 value={startNode}
                 onChange={handleStartChange}
               >
+
                 <option value="">
-                  Select starting location
+                  {t.select}
                 </option>
 
                 {building.nodes
@@ -287,18 +352,25 @@ function App() {
                       {node.id} - {node.label}
                     </option>
                   ))}
+
               </select>
+
             </div>
+
 
             {/* EMERGENCY CONTROLS */}
             <div className="hazard-controls">
-              <h3>Emergency Controls</h3>
+
+              <h3>{t.emergency}</h3>
+
 
               {/* BLOCKED CORRIDORS */}
-              <h4>Blocked Corridors</h4>
+              <h4>{t.corridors}</h4>
 
               <div className="hazard-list">
+
                 {building.edges.map((edge) => {
+
                   const isBlocked =
                     currentState.blocked_edges.includes(
                       edge.id
@@ -317,22 +389,28 @@ function App() {
                       }
                     >
                       {isBlocked ? "🚧 " : ""}
+
                       {edge.id} — {edge.from} →{" "}
                       {edge.to}
                     </button>
                   );
+
                 })}
+
               </div>
 
+
               {/* CLOSED EXITS */}
-              <h4>Closed Exits</h4>
+              <h4>{t.exits}</h4>
 
               <div className="hazard-list">
+
                 {building.nodes
                   .filter(
                     (node) => node.type === "exit"
                   )
                   .map((exit) => {
+
                     const isClosed =
                       currentState.closed_exits.includes(
                         exit.id
@@ -351,16 +429,21 @@ function App() {
                         }
                       >
                         {isClosed ? "🚪 " : ""}
+
                         {exit.id} — {exit.label}
                       </button>
                     );
+
                   })}
+
               </div>
 
+
               {/* BLOCKED LOCATIONS */}
-              <h4>Blocked Locations</h4>
+              <h4>{t.locations}</h4>
 
               <div className="hazard-list">
+
                 {building.nodes
                   .filter(
                     (node) =>
@@ -368,6 +451,7 @@ function App() {
                       node.type === "junction"
                   )
                   .map((node) => {
+
                     const isBlocked =
                       currentState.blocked_nodes.includes(
                         node.id
@@ -386,63 +470,83 @@ function App() {
                         }
                       >
                         {isBlocked ? "⚠️ " : ""}
+
                         {node.id} — {node.label}
                       </button>
                     );
+
                   })}
+
               </div>
+
 
               {/* RESET */}
               <button
                 className="reset-button"
                 onClick={resetEmergencyState}
               >
-                Reset Emergency State
+                {t.reset}
               </button>
+
             </div>
 
-            {/* ROUTE RESULT */}
+
+            {/* ROUTE STATUS */}
             {route && (
               <div
                 className={`route-status ${route.status}`}
               >
+
                 {route.status === "success" && (
                   <>
-                    <strong>Route found</strong>
+                    <strong>
+                      {t.routeFound}
+                    </strong>
 
                     <p>
                       {route.path.join(" → ")}
                     </p>
 
                     <p>
-                      Exit:{" "}
-                      <strong>{route.exit}</strong>
+                      {t.exit}:{" "}
+                      <strong>
+                        {route.exit}
+                      </strong>
+
                       {" | "}
-                      Cost:{" "}
-                      <strong>{route.cost}</strong>
+
+                      {t.cost}:{" "}
+                      <strong>
+                        {route.cost}
+                      </strong>
                     </p>
                   </>
                 )}
 
+
                 {route.status === "no-route" && (
                   <strong>
-                    No route available
+                    {t.noRoute}
                   </strong>
                 )}
+
 
                 {route.status === "blocked" && (
                   <strong>
-                    Starting location blocked
+                    {t.blocked}
                   </strong>
                 )}
+
               </div>
             )}
 
-            {/* BUILDING MAP */}
+
+            {/* MAP */}
             <div className="map">
 
-              {/* CORRIDORS */}
+              {/* EDGES */}
               {building.edges.map((edge) => {
+
                 const from =
                   building.nodes.find(
                     (node) =>
@@ -477,15 +581,19 @@ function App() {
                 return (
                   <div
                     key={edge.id}
-                    className={`edge ${
-                      isRouteEdge(edge)
-                        ? "route-edge"
-                        : ""
-                    } ${
-                      isBlocked
-                        ? "blocked-edge"
-                        : ""
-                    }`}
+                    className={`
+                      edge
+                      ${
+                        isRouteEdge(edge)
+                          ? "route-edge"
+                          : ""
+                      }
+                      ${
+                        isBlocked
+                          ? "blocked-edge"
+                          : ""
+                      }
+                    `}
                     style={{
                       left: `${from.x}px`,
                       top: `${from.y}px`,
@@ -496,10 +604,13 @@ function App() {
                     <span>{edge.cost}</span>
                   </div>
                 );
+
               })}
+
 
               {/* NODES */}
               {building.nodes.map((node) => {
+
                 const isBlocked =
                   currentState.blocked_nodes.includes(
                     node.id
@@ -512,24 +623,36 @@ function App() {
                   );
 
                 return (
-                  <div
-                    key={node.id}
-                    className={`node ${
-                      node.type
-                    } ${
-                      isBlocked
-                        ? "blocked-node"
-                        : ""
-                    } ${
-                      isClosedExit
-                        ? "closed-exit"
-                        : ""
-                    }`}
+  <div
+  key={node.id}
+  className={`
+    node
+    ${node.type}
+    ${node.id === startNode ? "start-node" : ""}
+    ${
+      route &&
+      route.status === "success" &&
+      node.id === route.exit
+        ? "route-exit"
+        : ""
+    }
+                      ${
+                        isBlocked
+                          ? "blocked-node"
+                          : ""
+                      }
+                      ${
+                        isClosedExit
+                          ? "closed-exit"
+                          : ""
+                      }
+                    `}
                     style={{
                       left: `${node.x}px`,
                       top: `${node.y}px`,
                     }}
                   >
+
                     <div className="node-circle">
                       {node.id}
                     </div>
@@ -537,13 +660,19 @@ function App() {
                     <div className="node-label">
                       {node.label}
                     </div>
+
                   </div>
                 );
+
               })}
+
             </div>
+
           </section>
         )}
+
       </main>
+
     </div>
   );
 }
