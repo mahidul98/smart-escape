@@ -222,3 +222,103 @@ body {
 .route-status.blocked {
   border-left-color: #f59e0b;
 }
+.route-edge {
+  height: 5px;
+  background: #00c853;
+  box-shadow: 0 0 8px #00c853;
+  z-index: 2;
+}
+
+.hazard-active {
+  background: #d32f2f;
+  color: white;
+}
+
+.reset-button {
+  margin-top: 15px;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+.hazard-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.hazard-list button {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+/* Emergency controls */
+.hazard-controls {
+  margin: 20px 0;
+  padding: 18px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.hazard-controls h3 {
+  margin-top: 0;
+}
+
+.hazard-controls h4 {
+  margin-bottom: 8px;
+}
+
+.hazard-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.hazard-list button {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+}
+
+.hazard-list button:hover {
+  background: #f0f0f0;
+}
+
+.hazard-list .hazard-active {
+  background: #d32f2f;
+  color: white;
+  border-color: #d32f2f;
+}
+
+.reset-button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Calculated evacuation route */
+.route-edge {
+  height: 5px;
+  z-index: 5;
+  box-shadow: 0 0 8px rgba(0, 200, 83, 0.8);
+}
+
+/* Blocked corridor on map */
+.blocked-edge {
+  opacity: 0.35;
+  border-style: dashed;
+}
+
+/* Blocked room / junction */
+.blocked-node .node-circle {
+  opacity: 0.45;
+}
+
+/* Closed exit */
+.closed-exit .node-circle {
+  opacity: 0.45;
+}
