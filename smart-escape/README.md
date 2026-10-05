@@ -4,8 +4,8 @@ Smart Escape is an interactive evacuation route simulator that calculates the lo
 
 ## Identity
 
-- Full Name: YOUR FULL NAME
-- Registration Number: YOUR REGISTRATION NUMBER
+- Full Name: Mahidul Islam
+- Registration Number: cmu1geqqv0257o0kny0vfkq65
 
 ## Live Website
 
